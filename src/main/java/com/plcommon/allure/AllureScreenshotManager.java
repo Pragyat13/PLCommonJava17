@@ -46,6 +46,11 @@ public final class AllureScreenshotManager {
             return;
         }
 
+        if (!(driver instanceof TakesScreenshot)) {
+            LOGGER.warn("WebDriver does not support screenshot capture (TakesScreenshot interface not implemented): {}", name);
+            return;
+        }
+
         try {
             byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             Allure.addAttachment(name, "image/png", new ByteArrayInputStream(screenshotBytes), "png");
